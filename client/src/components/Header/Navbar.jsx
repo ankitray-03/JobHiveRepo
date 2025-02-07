@@ -67,7 +67,7 @@ const Navbar = () => {
               About
             </Link>
             <Link
-              to="/signin"
+              to="/sign-in"
               className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600"
             >
               Sign In

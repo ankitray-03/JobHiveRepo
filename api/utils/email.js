@@ -1,4 +1,5 @@
 import transporter from "../config/nodemailer.config.js";
+import { transactionalEmailApi } from "../config/Brevo.config.js";
 import {
   verificationMailTemplate,
   verificationSuccessMailTemplate,
@@ -8,16 +9,24 @@ import {
 
 export const sendVerificationEMail = async (email, otp) => {
   const Options = {
-    from: process.env.NODEMAILER_EMAIL,
+    from: process.env.BREVO_SENDER_EMAIL,
     to: email,
     subject: "Verify your account",
     html: verificationMailTemplate(otp),
   };
 
   try {
-    console.log("Started sending verification mail");
-    const res = await transporter.sendMail(Options);
-    console.log("Verification mail sent");
+    await transactionalEmailApi.sendTransacEmail({
+      sender: {
+        email: Options.from, // VERIFIED
+        name: process.env.BREVO_SENDER_NAME,
+      },
+      to: [{ email: Options.to }],
+      subject: Options.subject,
+      htmlContent: Options.html,
+    });
+
+    console.log("✅ Email sent to:", Options.to);
   } catch (error) {
     throw error;
   }

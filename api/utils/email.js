@@ -15,6 +15,7 @@ export const sendVerificationEMail = async (email, otp) => {
   };
 
   try {
+    console.log("Started sending verification mail");
     const res = await transporter.sendMail(Options);
     console.log("Verification mail sent");
   } catch (error) {

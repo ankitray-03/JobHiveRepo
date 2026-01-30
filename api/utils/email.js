@@ -18,7 +18,7 @@ export const sendVerificationEMail = async (email, otp) => {
     const res = await transporter.sendMail(Options);
     console.log("Verification mail sent");
   } catch (error) {
-    next(error);
+    throw error;
   }
 };
 
@@ -34,7 +34,7 @@ export const sendWelcomeEmail = async (email, name) => {
     const res = await transporter.sendMail(Options);
     console.log("Welcome mail sent.");
   } catch (error) {
-    next(error);
+    throw error;
   }
 };
 
@@ -50,7 +50,7 @@ export const sendPasswordResetEmail = async (email, reset_link) => {
     const res = await transporter.sendMail(Options);
     console.log("Reset Password mail sent.");
   } catch (error) {
-    next(error);
+    throw error;
   }
 };
 
@@ -66,6 +66,6 @@ export const sendResetSuccessEmail = async (email) => {
     const res = await transporter.sendMail(Options);
     console.log("Reset Success mail sent.");
   } catch (error) {
-    next(error);
+    throw error;
   }
 };

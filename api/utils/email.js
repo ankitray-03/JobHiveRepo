@@ -26,7 +26,7 @@ export const sendVerificationEMail = async (email, otp) => {
       htmlContent: Options.html,
     });
 
-    console.log("✅ Email sent to:", Options.to);
+    console.log("✅ Email Verification OTP sent!!:");
   } catch (error) {
     throw error;
   }
@@ -34,15 +34,24 @@ export const sendVerificationEMail = async (email, otp) => {
 
 export const sendWelcomeEmail = async (email, name) => {
   const Options = {
-    from: process.env.NODEMAILER_EMAIL,
+    from: process.env.BREVO_SENDER_EMAIL,
     to: email,
-    subject: "Verification Successfull",
+    subject: "Verifications successfull",
     html: verificationSuccessMailTemplate(name),
   };
 
   try {
-    const res = await transporter.sendMail(Options);
-    console.log("Welcome mail sent.");
+    await transactionalEmailApi.sendTransacEmail({
+      sender: {
+        email: Options.from, // VERIFIED
+        name: process.env.BREVO_SENDER_NAME,
+      },
+      to: [{ email: Options.to }],
+      subject: Options.subject,
+      htmlContent: Options.html,
+    });
+
+    console.log("✅ Email Suceess sent !!");
   } catch (error) {
     throw error;
   }
@@ -50,15 +59,24 @@ export const sendWelcomeEmail = async (email, name) => {
 
 export const sendPasswordResetEmail = async (email, reset_link) => {
   const Options = {
-    from: process.env.NODEMAILER_EMAIL,
+    from: process.env.BREVO_SENDER_EMAIL,
     to: email,
     subject: "Reset Password",
     html: resetPasswordEmailTemplate(reset_link),
   };
 
   try {
-    const res = await transporter.sendMail(Options);
-    console.log("Reset Password mail sent.");
+    await transactionalEmailApi.sendTransacEmail({
+      sender: {
+        email: Options.from, // VERIFIED
+        name: process.env.BREVO_SENDER_NAME,
+      },
+      to: [{ email: Options.to }],
+      subject: Options.subject,
+      htmlContent: Options.html,
+    });
+
+    console.log("✅ Email Reset OTP sent !!");
   } catch (error) {
     throw error;
   }
@@ -66,15 +84,24 @@ export const sendPasswordResetEmail = async (email, reset_link) => {
 
 export const sendResetSuccessEmail = async (email) => {
   const Options = {
-    from: process.env.NODEMAILER_EMAIL,
+    from: process.env.BREVO_SENDER_EMAIL,
     to: email,
     subject: "Password Updated",
     html: resetPasswordSucessEmailTemplate(),
   };
 
   try {
-    const res = await transporter.sendMail(Options);
-    console.log("Reset Success mail sent.");
+    await transactionalEmailApi.sendTransacEmail({
+      sender: {
+        email: Options.from, // VERIFIED
+        name: process.env.BREVO_SENDER_NAME,
+      },
+      to: [{ email: Options.to }],
+      subject: Options.subject,
+      htmlContent: Options.html,
+    });
+
+    console.log("✅ Email Reset Success mail sent !!");
   } catch (error) {
     throw error;
   }

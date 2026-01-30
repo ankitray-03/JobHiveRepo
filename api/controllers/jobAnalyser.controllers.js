@@ -1,5 +1,5 @@
 // import { openai } from "../config/OpenAI.config.js";
-import model from "../config/gemini.config.js";
+import ai from "../config/gemini.config.js";
 
 export const genrateEmailAndResume = async (req, res) => {
   let { jobDescription, resumeContent } = req.body;
@@ -28,7 +28,10 @@ export const genrateEmailAndResume = async (req, res) => {
       Make it personalized and compelling.
     `;
 
-    const emailReponse = await model.generateContent(emailPrompt);
+    const emailReponse = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: emailPrompt,
+    });
 
     // generate resume
     const resumePrompt = `Given this job description: "${jobDescription}"
@@ -40,11 +43,14 @@ export const genrateEmailAndResume = async (req, res) => {
       4. Removing less relevant information
       Return the optimized resume content maintaining a professional format.
     `;
-    const resumeResponse = await model.generateContent(resumePrompt);
+    const resumeResponse = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: resumePrompt,
+    });
 
     // Extract generated content
-    const emailContent = emailReponse.response.text();
-    const generatedResumeContent = resumeResponse.response.text();
+    const emailContent = emailReponse.text;
+    const generatedResumeContent = resumeResponse.text;
 
     // const resumeContent = resumeResponse.choices[0].message.content.trim();
 

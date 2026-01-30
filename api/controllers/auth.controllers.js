@@ -31,7 +31,7 @@ export const signup = async (req, res) => {
   const hashedPassword = await bcryptjs.hash(password, 10);
 
   const verificationToken = Math.floor(
-    100000 + Math.random() * 900000
+    100000 + Math.random() * 900000,
   ).toString();
 
   const user = new User({
@@ -185,7 +185,7 @@ export const forgotPassword = async (req, res) => {
     // send email
     await sendPasswordResetEmail(
       user.email,
-      `${process.env.FONTEND_URL}/reset-password/${resetPasswordToken}`
+      `${process.env.HOSTED_LINK}/reset-password/${resetPasswordToken}`,
     );
 
     return res.status(200).json({

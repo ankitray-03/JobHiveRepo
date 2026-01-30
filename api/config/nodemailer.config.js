@@ -13,27 +13,15 @@ dotenv.config();
 // });
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
+  host: "smtp-relay.brevo.com",
   port: 587,
   secure: false, // TLS
   auth: {
-    user: process.env.NODEMAILER_EMAIL,
-    pass: process.env.NODEMAILER_PASSWORD, // App Password
+    // SMPT login
+    user: process.env.BREVO_EMAIL,
+    // SMPTP key
+    pass: process.env.NODEMAILER_PASSWORD,
   },
-  requireTLS: true,
-  connectionTimeout: 10000,
-  greetingTimeout: 10000,
-  socketTimeout: 10000,
 });
-
-// const transporter = nodemailer.createTransport({
-//   host: "smtp-relay.brevo.com",
-//   port: 587,
-//   secure: false,
-//   auth: {
-//     user: process.env.NODEMAILER_EMAIL,
-//     pass: process.env.NODEMAILER_PASSWORD,
-//   },
-// });
 
 export default transporter;
